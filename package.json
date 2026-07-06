@@ -9,14 +9,16 @@
     "typecheck": "tsc -b",
     "lint": "oxlint",
     "preview": "vite preview",
-    "prepare": "husky"
+    "prepare": "husky",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@mui/icons-material": "^9.2.0",
     "@mui/material": "^9.2.0",
     "i18next": "^26.3.4",
+    "lucide-react": "^1.23.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-i18next": "^17.0.8",
@@ -35,12 +37,26 @@
     "msw": "^2.14.6",
     "oxlint": "^1.71.0",
     "prettier": "^3.9.4",
+    "sass-embedded": "^1.100.0",
     "typescript": "~6.0.2",
-    "vite": "^8.1.1"
+    "vite": "^8.1.1",
+    "storybook": "^10.4.6",
+    "@storybook/react-vite": "^10.4.6",
+    "@chromatic-com/storybook": "^5.2.1",
+    "@storybook/addon-vitest": "^10.4.6",
+    "@storybook/addon-a11y": "^10.4.6",
+    "@storybook/addon-docs": "^10.4.6",
+    "@storybook/addon-mcp": "^0.6.0",
+    "vitest": "^4.1.10",
+    "playwright": "^1.61.1",
+    "@vitest/browser-playwright": "^4.1.10",
+    "@vitest/coverage-v8": "^4.1.10"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
-      "msw"
+      "msw",
+      "esbuild",
+      "@parcel/watcher"
     ]
   },
   "msw": {

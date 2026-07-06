@@ -3,12 +3,15 @@ import tokens from '@/tokens/base';
 import Box from '@mui/material/Box';
 import Stack, { type StackProps } from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import Button from '@/components/atoms/Button';
+import Button from '@mui/material/Button';
+
+export type IllustrationType = 'Complete' | 'Empty' | 'Error' | 'Warm' | 'TaskDescriptionCard';
 
 export interface IIllustrationCardProps extends Omit<StackProps, 'children'> {
   variant?: 'info' | 'success' | 'error';
-  src?: string;
+  type?: IllustrationType;
   size?: number;
+  name?: string;
   code?: string;
   title?: string;
   subtitle?: string;
@@ -23,8 +26,9 @@ export interface IIllustrationCardProps extends Omit<StackProps, 'children'> {
 
 const IllustrationCard: React.FC<IIllustrationCardProps> = ({
   variant,
-  src,
+  type = 'Error',
   size = 80,
+  name,
   code,
   title,
   subtitle,
@@ -37,6 +41,13 @@ const IllustrationCard: React.FC<IIllustrationCardProps> = ({
   children,
   ...rest
 }) => {
+  const imgSrc = name
+    ? new URL(
+        `../../../assets/Illustration/${type}/Img_${size}x${size}_${name}.svg`,
+        import.meta.url,
+      ).href
+    : undefined;
+
   return (
     <Stack
       {...rest}
@@ -48,15 +59,15 @@ const IllustrationCard: React.FC<IIllustrationCardProps> = ({
         ...rest?.sx,
       }}
     >
-      {src && (
+      {imgSrc && (
         <img
           style={{
             width: size,
             height: size,
             marginBottom: tokens.spaceGeneralGapL,
           }}
-          src={src}
-          alt="error"
+          src={imgSrc}
+          alt={name}
           loading="lazy"
         />
       )}
@@ -71,13 +82,13 @@ const IllustrationCard: React.FC<IIllustrationCardProps> = ({
             variant="subtitle1"
             component="div"
             color="text.primary"
-            className="text-center"
+            sx={{ textAlign: 'center' }}
           >
             {title}
           </Typography>
         )}
         {subtitle && (
-          <Typography variant="body2" color="text.secondary" className="text-center">
+          <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
             {subtitle + (code ? `(${code})` : '')}
           </Typography>
         )}
@@ -99,6 +110,7 @@ const IllustrationCard: React.FC<IIllustrationCardProps> = ({
             loading={loading}
             loadingPosition="start"
             fullWidth
+            sx={{ borderRadius: tokens.borderRadiusGeneralAllRound }}
             onClick={onOk}
           >
             {okText}
@@ -112,6 +124,7 @@ const IllustrationCard: React.FC<IIllustrationCardProps> = ({
                 variant="outlined"
                 fullWidth
                 loadingPosition="start"
+                sx={{ borderRadius: tokens.borderRadiusGeneralAllRound }}
                 onClick={onCancel}
               >
                 {cancelText}
@@ -125,6 +138,7 @@ const IllustrationCard: React.FC<IIllustrationCardProps> = ({
                 loading={loading}
                 loadingPosition="start"
                 fullWidth
+                sx={{ borderRadius: tokens.borderRadiusGeneralAllRound }}
                 onClick={onOk}
               >
                 {okText}
@@ -140,6 +154,7 @@ const IllustrationCard: React.FC<IIllustrationCardProps> = ({
                 variant="outlined"
                 fullWidth
                 loadingPosition="start"
+                sx={{ borderRadius: tokens.borderRadiusGeneralAllRound }}
                 onClick={onCancel}
               >
                 {cancelText}
@@ -149,11 +164,12 @@ const IllustrationCard: React.FC<IIllustrationCardProps> = ({
               <Button
                 variant="outlined"
                 fullWidth
-                error
+                color="error"
                 size="large"
                 disableElevation
                 loading={loading}
                 loadingPosition="start"
+                sx={{ borderRadius: tokens.borderRadiusGeneralAllRound }}
                 onClick={onOk}
               >
                 {okText}

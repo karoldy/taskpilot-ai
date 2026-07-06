@@ -1,0 +1,38 @@
+/* 防止过度滚动的全局样式 */
+html,
+body {
+  overscroll-behavior: none;
+  overscroll-behavior-y: none;
+}
+
+/* 为所有可滚动容器添加防止过度滚动 */
+.overflow-auto,
+.overflow-y-auto,
+.overflow-x-auto,
+.overflow-scroll {
+  overscroll-behavior: none;
+}
+
+button,
+[role="button"] {
+  cursor: pointer;
+}
+
+input::-webkit-contacts-auto-fill-button,
+input::-webkit-credentials-auto-fill-button {
+  visibility: hidden;
+  display: none !important;
+  pointer-events: none;
+}
+
+/* 防止移动端下拉刷新和橡皮筋效果的工具类 */
+.no-overscroll {
+  overscroll-behavior: none;
+  overscroll-behavior-y: none;
+  overscroll-behavior-x: none;
+}
+
+.no-bounce {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: none;
+}

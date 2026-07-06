@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import { createBrowserRouter, type RouteObject } from 'react-router';
+import { createBrowserRouter, Navigate, type RouteObject } from 'react-router';
 import ErrorBoundary from '@/components/layout/ErrorBoundary';
 
 const routers: RouteObject[] = [
@@ -14,9 +14,24 @@ const routers: RouteObject[] = [
     ErrorBoundary,
   },
   {
-    path: '/tasks',
-    Component: lazy(() => import('@/modules/task/page/Landing')),
+    path: '/',
+    element: <Navigate to="/tasks" />,
+  },
+  {
+    path: '/',
     ErrorBoundary,
+    hasErrorBoundary: true,
+    children: [
+      {
+        Component: lazy(() => import('@/components/layout')),
+        children: [
+          {
+            path: '/tasks',
+            Component: lazy(() => import('@/modules/task/page/Landing')),
+          },
+        ],
+      },
+    ],
   },
 ];
 

@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 export default function NotFound() {
   const navigate = useNavigate();
@@ -19,9 +21,21 @@ export default function NotFound() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <h1 className="text-2xl font-semibold mb-2">Page Not Found</h1>
-      <p className="text-gray-500">It will return to the previous page in {countdown} seconds...</p>
-    </div>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100vh',
+      }}
+    >
+      <Typography variant="heading2" sx={{ mb: 1 }}>
+        Page Not Found
+      </Typography>
+      <Typography variant="body2" color="text.description">
+        It will return to the previous page in {countdown} seconds...
+      </Typography>
+    </Box>
   );
 }

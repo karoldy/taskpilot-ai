@@ -26,7 +26,9 @@ export default function ErrorBoundary() {
     >
       <IllustrationCard
         variant="info"
-        src={new URL('@/assets/Illustration/Warm/Img_80x80_Warm_Action.svg', import.meta.url).href}
+        type="Warm"
+        size={80}
+        name="Warm_Action"
         title="Error"
         subtitle={t('dialog__servererror_subtitle')}
         okText={t('dialog__servererror_cta_retry')}
