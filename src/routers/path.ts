@@ -11,53 +11,34 @@ export interface RouteConfig {
 
 export const ROOT_PATH: RouteConfig[] = [
   {
-    id: 'dashboard',
-    path: 'dashboard',
-    key: 'navmenu__home',
-    icon: 'icon-24:home',
-    fontSize: '1.25rem',
+    id: 'project',
+    path: 'projects',
+    key: 'navmenu__project',
   },
   {
-    id: 'tasks',
+    id: 'task',
     path: 'tasks',
     key: 'navmenu__task',
-    icon: 'icon-24:task_list',
-    fontSize: '1.125rem',
   },
   {
-    id: 'staffs',
+    id: 'staff',
     path: 'staffs',
     key: 'navmenu__staff',
-    icon: 'icon-24:staff',
-    fontSize: '1.125rem',
   },
   {
     id: 'schedule',
     path: 'schedules',
     key: 'navmenu__schedule',
-    icon: 'icon-24:date_off',
-    fontSize: '1.125rem',
   },
   {
-    id: 'report',
-    path: 'reports/taskSummary',
-    key: 'navmenu__report',
-    icon: 'icon-24:report',
-    fontSize: '1.125rem',
-  },
-  {
-    id: 'documents',
-    path: 'documents',
+    id: 'note',
+    path: 'notes',
     key: 'navmenu__doc',
-    icon: 'icon-24:document',
-    fontSize: '1.125rem',
   },
   {
-    id: 'location',
-    path: 'locations',
-    key: 'navmenu__location',
-    icon: 'icon-24:location',
-    fontSize: '1.125rem',
+    id: 'dashboard',
+    path: 'dashboard',
+    key: 'navmenu__home',
   },
 ];
 

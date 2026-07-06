@@ -8,14 +8,16 @@ TaskPilot AI — 一个 AI 驱动的项目任务管理平台。
 
 ## 常用命令
 
-| 命令             | 说明                                  |
-| ---------------- | ------------------------------------- |
-| `pnpm dev`       | 启动 Vite 开发服务器（端口 5170）     |
-| `pnpm build`     | TypeScript 类型检查 + Vite 生产构建   |
-| `pnpm typecheck` | 仅运行 `tsc -b`（不生成输出）         |
-| `pnpm lint`      | 运行 oxlint                           |
-| `pnpm preview`   | 预览生产构建                          |
-| `pnpm install`   | 安装依赖（需要 pnpm ≥ 10，Node ≥ 20） |
+| 命令                   | 说明                                   |
+| ---------------------- | -------------------------------------- |
+| `pnpm dev`             | 启动 Vite 开发服务器（端口 5170）      |
+| `pnpm build`           | TypeScript 类型检查 + Vite 生产构建    |
+| `pnpm typecheck`       | 仅运行 `tsc -b`（不生成输出）          |
+| `pnpm lint`            | 运行 oxlint                            |
+| `pnpm preview`         | 预览生产构建                           |
+| `pnpm storybook`       | 启动 Storybook 开发服务器（端口 6006） |
+| `pnpm build-storybook` | 构建 Storybook 静态站点                |
+| `pnpm install`         | 安装依赖（需要 pnpm ≥ 10，Node ≥ 20）  |
 
 **Pre-commit**（husky + lint-staged）：`*.{ts,tsx}` 文件依次执行 prettier → oxlint → `tsc -b --noEmit`。提交信息通过 commitlint 强制遵循 Conventional Commits 规范。
 
@@ -29,7 +31,9 @@ TaskPilot AI — 一个 AI 驱动的项目任务管理平台。
 - **i18n**：i18next + react-i18next，3 种语言：`en`（英文）、`sc`（简体中文）、`tc`（繁体中文）
 - **API Mock**：MSW 2（Service Worker 在 `public/` 目录，handlers 目前为空）
 - **图标**：`lucide-react`，按需直接导入使用
-- **测试**：尚未配置测试框架（无 Vitest、Jest 或 Playwright）
+- **测试**：Vitest + Playwright（通过 `@storybook/addon-vitest` 集成）
+- **组件开发**：Storybook 10（`@storybook/react-vite`），全局样式和 MUI 主题已在 `.storybook/preview.tsx` 中注入，支持响应式视口切换（XS-XXL）
+- **全局样式**：`src/styles/global.scss`（overscroll 控制、a 标签重置、移动端橡皮筋效果）通过 `src/styles/index.scss` 统一入口
 
 ## 架构
 
@@ -65,7 +69,8 @@ Layout (src/components/layout/index.tsx)
 
 - `Header` — 页面级横幅，含背景图片，根据固定 Navbar 高度（64px）留出内边距
 - `NotFound` / `ErrorBoundary` — 通用错误/404 页面；ErrorBoundary 使用 `IllustrationCard`
-- `IllustrationCard`（`components/molecules/IllustrationCard/`）— 可复用的卡片组件，含图片、标题、操作按钮；支持 `variant`（info/success/error）和 `loading` 状态
+- `IllustrationCard`（`components/molecules/IllustrationCard/`）— 可复用的卡片组件，通过 `type`/`size`/`name` 动态加载 SVG 插图；支持 `variant`（info/success/error）和 `loading` 状态
+- Storybook stories 统一放在 `src/stories/` 目录下
 
 ### 状态管理（`src/stores/`）
 

@@ -5,12 +5,20 @@ import { ROOT_PATH } from '@/routers/path';
 import tokens from '@/tokens/base';
 // import { useAppSelector } from "@/hooks/useReduxSlice";
 import { useTranslation } from 'react-i18next';
-import { Link, useLocation } from 'react-router';
+import { Link } from 'react-router';
 // import { useRequest } from "alova/client";
 // import { smalLogout } from "@/modules/auth/api";
 // import { Icon } from "@iconify/react";
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import {
+  FolderGit2,
+  ListChecks,
+  UserStar,
+  CalendarDays,
+  NotebookPen,
+  LayoutDashboard,
+} from 'lucide-react';
 import Box from '@mui/material/Box';
 import Stack, { type StackProps } from '@mui/material/Stack';
 import Drawer from '@mui/material/Drawer';
@@ -39,6 +47,15 @@ import IllustrationCard from '../molecules/IllustrationCard';
 // import { logoutHandler } from '@/modules/auth/shared';
 // import LoadingModal from '@/components/molecules/Loading/LoadingModal';
 
+const IconMap = {
+  project: FolderGit2,
+  task: ListChecks,
+  staff: UserStar,
+  schedule: CalendarDays,
+  note: NotebookPen,
+  dashboard: LayoutDashboard,
+} as const;
+
 interface INavbarProps extends Omit<StackProps, 'className' | 'children'> {
   children?: React.ReactNode;
 }
@@ -49,7 +66,7 @@ const Navbar: React.FC<INavbarProps> = ({ children, ...rest }) => {
   // const auth = useAppSelector((s) => s.auth);
   const theme = useTheme();
   // const navigate = useNavigate();
-  const location = useLocation();
+  // const location = useLocation();
 
   const lg = useMediaQuery(theme.breakpoints.down('lg'));
   const [openDrawer, setOpenDrawer] = React.useState<boolean>(false);
@@ -192,6 +209,9 @@ const Navbar: React.FC<INavbarProps> = ({ children, ...rest }) => {
                 const pathSegments = item.path.split('/');
                 const pathnameSegments = location?.pathname?.split('/').filter(Boolean) || [];
                 const active = pathSegments?.some((n) => pathnameSegments?.includes(n));
+                const iconId = item.id;
+                const Icon =
+                  iconId in IconMap ? IconMap[iconId as keyof typeof IconMap] : undefined;
                 return (
                   <Stack
                     key={item.id}
@@ -226,20 +246,14 @@ const Navbar: React.FC<INavbarProps> = ({ children, ...rest }) => {
                       },
                     }}
                   >
-                    {/* {item?.icon && (
-                      <VIcon
+                    {Icon && (
+                      <Icon
                         className="shrink-0"
-                        style={{ color: "inherit", fontSize: "inherit" }}
-                        icon={item.icon}
-                        width={24}
-                        height={24}
+                        style={{ color: 'inherit', fontSize: 'inherit' }}
+                        size={20}
                       />
-                    )} */}
+                    )}
                     <Box
-                      // className={clsx(
-                      //   "route-name ",
-                      //   active ? "" : "hidden xxl:block"
-                      // )}
                       className="route-name"
                       sx={{
                         display: {
