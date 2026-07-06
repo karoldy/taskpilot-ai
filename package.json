@@ -1,0 +1,59 @@
+{
+  "name": "taskpilot-ai",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "typecheck": "tsc -b",
+    "lint": "oxlint",
+    "preview": "vite preview",
+    "prepare": "husky"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^9.2.0",
+    "@mui/material": "^9.2.0",
+    "i18next": "^26.3.4",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "react-i18next": "^17.0.8",
+    "react-router": "^7.18.1",
+    "zustand": "^5.0.14"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^21.2.0",
+    "@commitlint/config-conventional": "^21.2.0",
+    "@types/node": "^24.13.2",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.3",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.8",
+    "msw": "^2.14.6",
+    "oxlint": "^1.71.0",
+    "prettier": "^3.9.4",
+    "typescript": "~6.0.2",
+    "vite": "^8.1.1"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "msw"
+    ]
+  },
+  "msw": {
+    "workerDirectory": "public"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "prettier --write",
+      "oxlint",
+      "bash -c 'tsc -b --noEmit'"
+    ],
+    "*.{json,md,yaml}": [
+      "prettier --write"
+    ]
+  }
+}
