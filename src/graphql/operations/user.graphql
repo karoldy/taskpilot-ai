@@ -1,0 +1,21 @@
+#import "../fragments/user.fragment.graphql"
+
+query Users($page: Int, $pageSize: Int, $sortBy: String, $sortOrder: SortOrder) {
+  users(page: $page, pageSize: $pageSize, sortBy: $sortBy, sortOrder: $sortOrder) {
+    items {
+      ...UserFields
+    }
+    meta {
+      page
+      total
+      hasMore
+      pageSize
+    }
+  }
+}
+
+query User($id: ID!) {
+  user(id: $id) {
+    ...UserFields
+  }
+}

@@ -1,0 +1,32 @@
+fragment TaskFields on Task {
+  id
+  projectId
+  sprintId
+  parentTaskId
+  taskCode
+  title
+  description
+  status
+  taskState
+  priority
+  creatorId
+  assigneeId
+  dueDate
+  startedAt
+  completedAt
+  createdAt
+  updatedAt
+  childTasks {
+    id
+    taskCode
+    title
+    taskState
+    priority
+  }
+  comments {
+    id
+    content
+    authorId
+    createdAt
+  }
+}

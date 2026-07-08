@@ -18,9 +18,12 @@ import {
   CalendarDays,
   NotebookPen,
   LayoutDashboard,
+  Settings,
+  Bell,
 } from 'lucide-react';
 import Box from '@mui/material/Box';
 import Stack, { type StackProps } from '@mui/material/Stack';
+import Avatar from '@mui/material/Avatar';
 import Drawer from '@mui/material/Drawer';
 import Dialog from '@mui/material/Dialog';
 import IconButton from '@mui/material/IconButton';
@@ -279,7 +282,7 @@ const Navbar: React.FC<INavbarProps> = ({ children, ...rest }) => {
           }}
         >
           <IconButton
-            // onClick={handleNotificationClick}
+            size="medium"
             sx={{
               borderRadius: tokens.borderRadiusGeneralAllRound,
               backgroundColor: tokens.colorFilledPrimaryEnabled,
@@ -291,25 +294,10 @@ const Navbar: React.FC<INavbarProps> = ({ children, ...rest }) => {
               },
             }}
           >
-            {/* <VIcon
-              color={tokens.colorIconOnColor}
-              icon={hasUnread ? "icon-24:bell_on" : "icon-24:bell"}
-              width={24}
-              height={24}
-            /> */}
+            <Bell color={tokens.colorIconOnColor} />
           </IconButton>
           <IconButton
-            // onClick={() => {
-            //   if (permission?.isSystemAdmin) {
-            //     navigate("/setting/userRoles");
-            //   }
-            //   if (!permission?.isSystemAdmin && permission?.isAaAdmin) {
-            //     navigate("/setting/contracts");
-            //   }
-            //   if (!permission?.isSystemAdmin && !permission?.isAaAdmin) {
-            //     navigate("/setting/companies");
-            //   }
-            // }}
+            size="medium"
             sx={{
               borderRadius: tokens.borderRadiusGeneralAllRound,
               backgroundColor: tokens.colorFilledPrimaryEnabled,
@@ -321,12 +309,7 @@ const Navbar: React.FC<INavbarProps> = ({ children, ...rest }) => {
               },
             }}
           >
-            {/* <VIcon
-              color={tokens.colorIconOnColor}
-              icon="icon-24:setting"
-              width={24}
-              height={24}
-            /> */}
+            <Settings color={tokens.colorIconOnColor} />
           </IconButton>
           {/* {!lg && (
             <>
@@ -334,50 +317,16 @@ const Navbar: React.FC<INavbarProps> = ({ children, ...rest }) => {
               <FontSizePicker />
             </>
           )} */}
-          <Typography
-            component="h6"
-            noWrap
-            color="text.onColor"
-            variant="body1Highlight"
+          <Avatar
             sx={{
-              marginLeft: '8px',
+              bgcolor: '#094dcc',
               cursor: 'pointer',
-              maxWidth: '120px',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-            }}
-            // onClick={() => {
-            //   if (auth?.userSnapshot?.userId) {
-            //     fetchPersonalInfo(auth?.userSnapshot?.userId);
-            //   }
-            // }}
-          >
-            {/* {
-              i18n.language === 'en'
-                ? auth?.userSnapshot?.personalInfo?.name
-                : auth?.userSnapshot?.personalInfo?.chineseName || auth?.userSnapshot?.personalInfo?.name
-            } */}
-            System Admin
-          </Typography>
-          <IconButton
-            onClick={() => setopenLogoutModal(true)}
-            sx={{
-              borderRadius: tokens.borderRadiusGeneralAllRound,
-              '&:hover': {
-                backgroundColor: tokens.colorFilledPrimaryHover,
-              },
-              '&:active': {
-                backgroundColor: tokens.colorFilledPrimaryPressed,
-              },
             }}
           >
-            {/* <VIcon
-              color={tokens.colorIconOnColor}
-              icon="icon-24:chevron_down"
-              width={24}
-              height={24}
-            /> */}
-          </IconButton>
+            <Typography variant="body2Highlight" color="text.onColor">
+              SA
+            </Typography>
+          </Avatar>
         </Stack>
         {children}
       </Stack>

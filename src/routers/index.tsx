@@ -18,6 +18,13 @@ const routers: RouteObject[] = [
     element: <Navigate to="/tasks" />,
   },
   {
+    path: '/login',
+    // HydrateFallback: () => <LinearProgress />,
+    Component: lazy(() => import('@/modules/auth/pages/Login')),
+    ErrorBoundary,
+    hasErrorBoundary: true,
+  },
+  {
     path: '/',
     ErrorBoundary,
     hasErrorBoundary: true,
@@ -26,8 +33,12 @@ const routers: RouteObject[] = [
         Component: lazy(() => import('@/components/layout')),
         children: [
           {
-            path: '/tasks',
-            Component: lazy(() => import('@/modules/task/page/Landing')),
+            path: 'projects',
+            Component: lazy(() => import('@/modules/project/pages/Landing')),
+          },
+          {
+            path: 'tasks',
+            Component: lazy(() => import('@/modules/task/pages/Landing')),
           },
         ],
       },

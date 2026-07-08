@@ -1,0 +1,19 @@
+fragment ProjectFields on Project {
+  id
+  name
+  nameSc
+  nameTc
+  projectCode
+  description
+  status
+  projectStatus
+  ownerId
+  createdAt
+  updatedAt
+  members {
+    id
+    role
+    userId
+    joinedAt
+  }
+}

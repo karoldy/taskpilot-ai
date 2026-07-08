@@ -1,0 +1,13 @@
+fragment SprintFields on Sprint {
+  id
+  projectId
+  name
+  nameSc
+  nameTc
+  goal
+  status
+  startDate
+  endDate
+  createdAt
+  updatedAt
+}

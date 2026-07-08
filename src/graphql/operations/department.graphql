@@ -1,0 +1,67 @@
+query Departments {
+  departments {
+    id
+    name
+    nameSc
+    nameTc
+    description
+    parentDepartmentId
+    childDepartments {
+      id
+      name
+      nameSc
+      nameTc
+    }
+    createdAt
+    updatedAt
+  }
+}
+
+query Department($id: ID!) {
+  department(id: $id) {
+    id
+    name
+    nameSc
+    nameTc
+    description
+    parentDepartmentId
+    parentDepartment {
+      id
+      name
+    }
+    childDepartments {
+      id
+      name
+      nameSc
+      nameTc
+    }
+    createdAt
+    updatedAt
+  }
+}
+
+mutation CreateDepartment($input: CreateDepartmentInput!) {
+  createDepartment(input: $input) {
+    id
+    name
+    nameSc
+    nameTc
+    description
+    parentDepartmentId
+  }
+}
+
+mutation UpdateDepartment($id: ID!, $input: UpdateDepartmentInput!) {
+  updateDepartment(id: $id, input: $input) {
+    id
+    name
+    nameSc
+    nameTc
+    description
+    parentDepartmentId
+  }
+}
+
+mutation RemoveDepartment($id: ID!) {
+  removeDepartment(id: $id)
+}

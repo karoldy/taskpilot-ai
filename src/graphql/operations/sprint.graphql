@@ -1,0 +1,29 @@
+#import "../fragments/sprint.fragment.graphql"
+
+query Sprints($projectId: ID!) {
+  sprints(projectId: $projectId) {
+    ...SprintFields
+  }
+}
+
+query Sprint($id: ID!) {
+  sprint(id: $id) {
+    ...SprintFields
+  }
+}
+
+mutation CreateSprint($input: CreateSprintInput!) {
+  createSprint(input: $input) {
+    ...SprintFields
+  }
+}
+
+mutation UpdateSprint($id: ID!, $input: UpdateSprintInput!) {
+  updateSprint(id: $id, input: $input) {
+    ...SprintFields
+  }
+}
+
+mutation RemoveSprint($id: ID!) {
+  removeSprint(id: $id)
+}

@@ -1,0 +1,49 @@
+#import "../fragments/user.fragment.graphql"
+
+query Me {
+  me {
+    ...UserFields
+  }
+}
+
+mutation Login($input: LoginInput!) {
+  login(input: $input) {
+    accessToken
+    refreshToken
+    user {
+      ...UserFields
+    }
+  }
+}
+
+mutation Register($input: RegisterInput!) {
+  register(input: $input) {
+    accessToken
+    refreshToken
+    user {
+      ...UserFields
+    }
+  }
+}
+
+mutation RefreshToken($input: RefreshTokenInput!) {
+  refreshToken(input: $input) {
+    accessToken
+    refreshToken
+    user {
+      ...UserFields
+    }
+  }
+}
+
+mutation ForgotPassword($input: ForgotPasswordInput!) {
+  forgotPassword(input: $input)
+}
+
+mutation ResetPassword($input: ResetPasswordInput!) {
+  resetPassword(input: $input)
+}
+
+mutation Logout {
+  logout
+}

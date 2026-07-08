@@ -1,0 +1,74 @@
+query AiUsageRecords($page: Int, $pageSize: Int, $sortBy: String, $sortOrder: SortOrder) {
+  aiUsageRecords(page: $page, pageSize: $pageSize, sortBy: $sortBy, sortOrder: $sortOrder) {
+    items {
+      id
+      userId
+      projectId
+      taskId
+      provider
+      modelName
+      requestType
+      promptTokens
+      completionTokens
+      requestDurationMs
+      estimatedCost
+      createdAt
+    }
+    meta {
+      page
+      total
+      hasMore
+      pageSize
+    }
+  }
+}
+
+query MyAiUsage($page: Int, $pageSize: Int, $sortBy: String, $sortOrder: SortOrder) {
+  myAiUsage(page: $page, pageSize: $pageSize, sortBy: $sortBy, sortOrder: $sortOrder) {
+    items {
+      id
+      userId
+      projectId
+      taskId
+      provider
+      modelName
+      requestType
+      promptTokens
+      completionTokens
+      requestDurationMs
+      estimatedCost
+      createdAt
+    }
+    meta {
+      page
+      total
+      hasMore
+      pageSize
+    }
+  }
+}
+
+query ProjectAiUsage($projectId: ID!, $page: Int, $pageSize: Int, $sortBy: String, $sortOrder: SortOrder) {
+  projectAiUsage(projectId: $projectId, page: $page, pageSize: $pageSize, sortBy: $sortBy, sortOrder: $sortOrder) {
+    items {
+      id
+      userId
+      projectId
+      taskId
+      provider
+      modelName
+      requestType
+      promptTokens
+      completionTokens
+      requestDurationMs
+      estimatedCost
+      createdAt
+    }
+    meta {
+      page
+      total
+      hasMore
+      pageSize
+    }
+  }
+}

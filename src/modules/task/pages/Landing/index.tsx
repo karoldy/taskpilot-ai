@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -14,6 +15,9 @@ import ToggleButton from '@mui/material/ToggleButton';
 import Chip from '@mui/material/Chip';
 import Header from '@/components/layout/Header';
 import { useTaskStore } from '@/stores/useTaskStore';
+import tokens from '@/tokens/base';
+import FilterCard from '@/components/molecules/FilterCard';
+import { Smile } from 'lucide-react';
 
 export default function TaskLandingPage() {
   const { t } = useTranslation();
@@ -33,8 +37,48 @@ export default function TaskLandingPage() {
 
   return (
     <>
-      <Header />
-      <Box sx={{ maxWidth: 600, mx: 'auto', p: 3 }}>
+      <Header>
+        <Box
+          sx={{
+            position: 'relative',
+            display: 'flex',
+            justifyContent: 'space-between',
+            paddingBlock: '16px',
+            paddingInline: '24px',
+          }}
+        >
+          <Stack>
+            <Typography
+              sx={{
+                color: tokens.colorTextOnColor,
+              }}
+            >
+              任务
+            </Typography>
+            <Typography
+              sx={{
+                color: tokens.colorTextOnColor,
+              }}
+            >
+              100
+            </Typography>
+          </Stack>
+          <Box
+            sx={{
+              display: 'flex',
+              gap: '12px',
+            }}
+          >
+            <FilterCard
+              chip={<Chip icon={<Smile color={tokens.colorIconOnColor} />} label="已指派" />}
+            />
+            <FilterCard
+              chip={<Chip icon={<Smile color={tokens.colorIconOnColor} />} label="已指派" />}
+            />
+          </Box>
+        </Box>
+      </Header>
+      <Box sx={{ flex: 1, maxWidth: 600, mx: 'auto', p: 3 }}>
         <Typography variant="h4" gutterBottom>
           {t('navmenu__task')}
         </Typography>

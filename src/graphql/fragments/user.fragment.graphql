@@ -1,0 +1,20 @@
+fragment UserFields on User {
+  id
+  email
+  nameEn
+  nameZh
+  displayName
+  role
+  avatarUrl
+  status
+  department {
+    id
+    name
+  }
+  position {
+    id
+    name
+  }
+  createdAt
+  updatedAt
+}

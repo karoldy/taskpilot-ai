@@ -8,16 +8,17 @@ TaskPilot AI — 一个 AI 驱动的项目任务管理平台。
 
 ## 常用命令
 
-| 命令                   | 说明                                   |
-| ---------------------- | -------------------------------------- |
-| `pnpm dev`             | 启动 Vite 开发服务器（端口 5170）      |
-| `pnpm build`           | TypeScript 类型检查 + Vite 生产构建    |
-| `pnpm typecheck`       | 仅运行 `tsc -b`（不生成输出）          |
-| `pnpm lint`            | 运行 oxlint                            |
-| `pnpm preview`         | 预览生产构建                           |
-| `pnpm storybook`       | 启动 Storybook 开发服务器（端口 6006） |
-| `pnpm build-storybook` | 构建 Storybook 静态站点                |
-| `pnpm install`         | 安装依赖（需要 pnpm ≥ 10，Node ≥ 20）  |
+| 命令                   | 说明                                         |
+| ---------------------- | -------------------------------------------- |
+| `pnpm dev`             | 启动 Vite 开发服务器（端口 5170）            |
+| `pnpm build`           | TypeScript 类型检查 + Vite 生产构建          |
+| `pnpm typecheck`       | 仅运行 `tsc -b`（不生成输出）                |
+| `pnpm lint`            | 运行 oxlint                                  |
+| `pnpm preview`         | 预览生产构建                                 |
+| `pnpm storybook`       | 启动 Storybook 开发服务器（端口 6006）       |
+| `pnpm build-storybook` | 构建 Storybook 静态站点                      |
+| `pnpm codegen`         | 根据后端 GraphQL schema 生成 TS 类型和 hooks |
+| `pnpm install`         | 安装依赖（需要 pnpm ≥ 10，Node ≥ 20）        |
 
 **Pre-commit**（husky + lint-staged）：`*.{ts,tsx}` 文件依次执行 prettier → oxlint → `tsc -b --noEmit`。提交信息通过 commitlint 强制遵循 Conventional Commits 规范。
 
@@ -105,6 +106,15 @@ Store 使用 Zustand 的 `create()`，将 state 和 actions 放在同一个 slic
 ### API Mock（`src/mocks/`）
 
 MSW 浏览器 Worker 已在 `src/mocks/browser.ts` 中配置。`src/mocks/handlers.ts` 中的 `handlers` 数组目前为空 — 待 API 接口确定后在此添加 REST/GraphQL handler。在开发环境中设置 `VITE_ENABLE_MOCK=true` 启用 Mock。
+
+### GraphQL 客户端（`src/config/apollo.config.ts` + `codegen.ts`）
+
+- **Apollo Client 4**：通过 HTTP Link 连接 NestJS GraphQL 端点（`VITE_GRAPHQL_URI` 环境变量，默认 `http://localhost:3000/graphql`）
+- **`ApolloProvider`** 挂载在 `App.tsx` 最外层，`.storybook/preview.tsx` 中也已注入该 Provider
+- **GraphQL Codegen**：运行 `pnpm codegen`（需要后端服务正在运行）将 `src/graphql/**/*.graphql` 中的 operation 编译为 `src/generated/graphql.ts`（已 gitignore）。生成内容包括 TypeScript 类型 + `useXxxQuery`/`useXxxMutation` hooks
+- **Operations 目录结构**：`src/graphql/operations/` 放 query/mutation，`src/graphql/fragments/` 放可复用的 fragment
+- Apollo Client 的默认 fetch policy：`watchQuery` 使用 `cache-and-network`，`query` 使用 `network-only`
+- GraphQL 数据由 Apollo Client 负责缓存，Zustand 仅管理纯 UI 状态（如侧边栏开关、语言切换），不存储服务端数据
 
 ## 应遵循的代码模式
 

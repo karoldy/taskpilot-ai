@@ -1,0 +1,47 @@
+query Positions {
+  positions {
+    id
+    name
+    nameSc
+    nameTc
+    description
+    createdAt
+    updatedAt
+  }
+}
+
+query Position($id: ID!) {
+  position(id: $id) {
+    id
+    name
+    nameSc
+    nameTc
+    description
+    createdAt
+    updatedAt
+  }
+}
+
+mutation CreatePosition($input: CreatePositionInput!) {
+  createPosition(input: $input) {
+    id
+    name
+    nameSc
+    nameTc
+    description
+  }
+}
+
+mutation UpdatePosition($id: ID!, $input: UpdatePositionInput!) {
+  updatePosition(id: $id, input: $input) {
+    id
+    name
+    nameSc
+    nameTc
+    description
+  }
+}
+
+mutation RemovePosition($id: ID!) {
+  removePosition(id: $id)
+}

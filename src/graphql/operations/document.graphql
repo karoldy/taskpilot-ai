@@ -1,0 +1,71 @@
+query Documents($projectId: ID!, $page: Int, $pageSize: Int, $sortBy: String, $sortOrder: SortOrder) {
+  documents(projectId: $projectId, page: $page, pageSize: $pageSize, sortBy: $sortBy, sortOrder: $sortOrder) {
+    items {
+      id
+      title
+      documentCode
+      creatorId
+      projectId
+      status
+      createdAt
+      updatedAt
+    }
+    meta {
+      page
+      total
+      hasMore
+      pageSize
+    }
+  }
+}
+
+query Document($id: ID!) {
+  document(id: $id) {
+    id
+    title
+    documentCode
+    content
+    creatorId
+    projectId
+    status
+    createdAt
+    updatedAt
+    updatedBy
+    versions {
+      id
+      versionNumber
+      createdAt
+      createdBy
+    }
+  }
+}
+
+mutation CreateDocument($input: CreateDocumentInput!) {
+  createDocument(input: $input) {
+    id
+    title
+    documentCode
+    content
+    status
+    createdAt
+  }
+}
+
+mutation UpdateDocument($id: ID!, $input: UpdateDocumentInput!) {
+  updateDocument(id: $id, input: $input) {
+    id
+    title
+    documentCode
+    content
+    status
+    updatedAt
+  }
+}
+
+mutation RemoveDocument($id: ID!) {
+  removeDocument(id: $id) {
+    id
+    title
+    documentCode
+  }
+}

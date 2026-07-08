@@ -1,0 +1,52 @@
+#import "../fragments/task.fragment.graphql"
+
+query Tasks($projectId: ID!, $page: Int, $pageSize: Int, $sortBy: String, $sortOrder: SortOrder) {
+  tasks(projectId: $projectId, page: $page, pageSize: $pageSize, sortBy: $sortBy, sortOrder: $sortOrder) {
+    items {
+      ...TaskFields
+    }
+    meta {
+      page
+      total
+      hasMore
+      pageSize
+    }
+  }
+}
+
+query Task($id: ID!) {
+  task(id: $id) {
+    ...TaskFields
+  }
+}
+
+mutation CreateTask($input: CreateTaskInput!) {
+  createTask(input: $input) {
+    ...TaskFields
+  }
+}
+
+mutation UpdateTask($id: ID!, $input: UpdateTaskInput!) {
+  updateTask(id: $id, input: $input) {
+    ...TaskFields
+  }
+}
+
+mutation RemoveTask($id: ID!) {
+  removeTask(id: $id) {
+    ...TaskFields
+  }
+}
+
+mutation AddTaskComment($input: CreateCommentInput!) {
+  addTaskComment(input: $input) {
+    id
+    content
+    authorId
+    createdAt
+  }
+}
+
+mutation RemoveTaskComment($id: ID!) {
+  removeTaskComment(id: $id)
+}

@@ -1,0 +1,71 @@
+#import "../fragments/project.fragment.graphql"
+
+query Projects($page: Int, $pageSize: Int, $sortBy: String, $sortOrder: SortOrder) {
+  projects(page: $page, pageSize: $pageSize, sortBy: $sortBy, sortOrder: $sortOrder) {
+    items {
+      ...ProjectFields
+    }
+    meta {
+      page
+      total
+      hasMore
+      pageSize
+    }
+  }
+}
+
+query Project($id: ID!) {
+  project(id: $id) {
+    ...ProjectFields
+  }
+}
+
+query MyProjects($page: Int, $pageSize: Int, $sortBy: String, $sortOrder: SortOrder) {
+  myProjects(page: $page, pageSize: $pageSize, sortBy: $sortBy, sortOrder: $sortOrder) {
+    items {
+      ...ProjectFields
+    }
+    meta {
+      page
+      total
+      hasMore
+      pageSize
+    }
+  }
+}
+
+mutation CreateProject($input: CreateProjectInput!) {
+  createProject(input: $input) {
+    ...ProjectFields
+  }
+}
+
+mutation UpdateProject($id: ID!, $input: UpdateProjectInput!) {
+  updateProject(id: $id, input: $input) {
+    ...ProjectFields
+  }
+}
+
+mutation RemoveProject($id: ID!) {
+  removeProject(id: $id) {
+    ...ProjectFields
+  }
+}
+
+mutation AddProjectMember($projectId: ID!, $input: AddProjectMemberInput!) {
+  addProjectMember(projectId: $projectId, input: $input) {
+    id
+    role
+    userId
+    joinedAt
+  }
+}
+
+mutation RemoveProjectMember($projectId: ID!, $userId: ID!) {
+  removeProjectMember(projectId: $projectId, userId: $userId) {
+    id
+    role
+    userId
+    joinedAt
+  }
+}

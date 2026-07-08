@@ -24,5 +24,5 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src", "src/types", ".storybook/**/*"]
+  "include": ["src", ".storybook/**/*"]
 }
