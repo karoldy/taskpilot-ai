@@ -1,0 +1,261 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String    @id @default(uuid()) @db.Uuid
+  email             String    @unique @db.VarChar(255)
+  passwordHash      String    @map("password_hash") @db.VarChar(255)
+  resetToken        String?   @map("reset_token") @db.VarChar(255)
+  resetTokenExpires DateTime? @map("reset_token_expires") @db.Timestamptz()
+  nameZh            String?   @map("name_zh") @db.VarChar(100)
+  nameEn            String?   @map("name_en") @db.VarChar(200)
+  displayName       String    @map("display_name") @db.VarChar(100)
+  departmentId      String?   @map("department_id") @db.Uuid
+  positionId        String?   @map("position_id") @db.Uuid
+  role              String    @default("member") @db.VarChar(20)
+  avatarUrl         String?   @map("avatar_url") @db.Text
+  status            Boolean   @default(true)
+  createdAt         DateTime  @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt         DateTime  @updatedAt @map("updated_at") @db.Timestamptz()
+
+  department         Department?      @relation(fields: [departmentId], references: [id], onDelete: SetNull)
+  position           Position?        @relation(fields: [positionId], references: [id], onDelete: SetNull)
+  ownedProjects      Project[]        @relation("ProjectOwner")
+  createdTasks       Task[]           @relation("TaskCreator")
+  assignedTasks      Task[]           @relation("TaskAssignee")
+  projectMembers     ProjectMember[]
+  taskComments       TaskComment[]
+  taskStatusLogs     TaskStatusLog[]
+  createdDocuments   Document[]       @relation("DocumentCreator")
+  updatedDocuments   Document[]       @relation("DocumentUpdater")
+  documentVersions   DocumentVersion[]
+  aiUsageRecords     AiUsageRecord[]
+  tokens             UserToken[]
+
+  @@map("users")
+}
+
+model UserToken {
+  id           String    @id @default(uuid()) @db.Uuid
+  jti          String    @unique @db.VarChar(255)
+  userId       String    @map("user_id") @db.Uuid
+  refreshToken String?   @unique @map("refresh_token") @db.VarChar(255)
+  expiresAt    DateTime  @map("expires_at") @db.Timestamptz()
+  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz()
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("user_tokens")
+}
+
+model Department {
+  id                 String    @id @default(uuid()) @db.Uuid
+  name               String    @db.VarChar(100)
+  nameSc             String    @map("name_sc") @db.VarChar(100)
+  nameTc             String    @map("name_tc") @db.VarChar(100)
+  description        String?   @db.Text
+  parentDepartmentId String?   @map("parent_department_id") @db.Uuid
+  createdAt          DateTime  @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt          DateTime  @updatedAt @map("updated_at") @db.Timestamptz()
+
+  parentDepartment Department?   @relation("DepartmentHierarchy", fields: [parentDepartmentId], references: [id], onDelete: SetNull)
+  childDepartments Department[]  @relation("DepartmentHierarchy")
+  users            User[]
+
+  @@map("departments")
+}
+
+model Position {
+  id          String    @id @default(uuid()) @db.Uuid
+  name        String    @db.VarChar(100)
+  nameSc      String    @map("name_sc") @db.VarChar(100)
+  nameTc      String    @map("name_tc") @db.VarChar(100)
+  description String?   @db.Text
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt   DateTime  @updatedAt @map("updated_at") @db.Timestamptz()
+
+  users User[]
+
+  @@map("positions")
+}
+
+model Project {
+  id            String    @id @default(uuid()) @db.Uuid
+  name          String    @db.VarChar(200)
+  nameSc        String    @map("name_sc") @db.VarChar(200)
+  nameTc        String    @map("name_tc") @db.VarChar(200)
+  projectCode   String    @unique @map("project_code") @db.VarChar(20)
+  description   String?   @db.Text
+  status        Boolean   @default(true)
+  projectStatus String    @default("active") @map("project_status") @db.VarChar(20)
+  ownerId       String    @map("owner_id") @db.Uuid
+  createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt     DateTime  @updatedAt @map("updated_at") @db.Timestamptz()
+
+  owner          User             @relation("ProjectOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  members        ProjectMember[]
+  sprints        Sprint[]
+  tasks          Task[]
+  documents      Document[]
+  aiUsageRecords AiUsageRecord[]
+
+  @@map("projects")
+}
+
+model ProjectMember {
+  id        String    @id @default(uuid()) @db.Uuid
+  projectId String    @map("project_id") @db.Uuid
+  userId    String    @map("user_id") @db.Uuid
+  role      String    @default("member") @db.VarChar(20)
+  joinedAt  DateTime  @default(now()) @map("joined_at") @db.Timestamptz()
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, userId])
+  @@map("project_members")
+}
+
+model Sprint {
+  id         String    @id @default(uuid()) @db.Uuid
+  projectId  String    @map("project_id") @db.Uuid
+  name       String    @db.VarChar(200)
+  nameSc     String    @map("name_sc") @db.VarChar(200)
+  nameTc     String    @map("name_tc") @db.VarChar(200)
+  goal       String?   @db.Text
+  status     String    @default("planning") @db.VarChar(20)
+  startDate  DateTime  @map("start_date") @db.Date
+  endDate    DateTime  @map("end_date") @db.Date
+  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt  DateTime  @updatedAt @map("updated_at") @db.Timestamptz()
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  tasks   Task[]
+
+  @@map("sprints")
+}
+
+model Task {
+  id           String    @id @default(uuid()) @db.Uuid
+  projectId    String    @map("project_id") @db.Uuid
+  sprintId     String?   @map("sprint_id") @db.Uuid
+  parentTaskId String?   @map("parent_task_id") @db.Uuid
+  taskCode     String    @unique @map("task_code") @db.VarChar(30)
+  title        String    @db.VarChar(500)
+  description  String?   @db.Text
+  status       Boolean   @default(true)
+  taskState    String    @default("todo") @map("task_state") @db.VarChar(20)
+  priority     String    @default("medium") @db.VarChar(10)
+  creatorId    String    @map("creator_id") @db.Uuid
+  assigneeId   String?   @map("assignee_id") @db.Uuid
+  dueDate      DateTime? @map("due_date") @db.Timestamptz()
+  startedAt    DateTime? @map("started_at") @db.Timestamptz()
+  completedAt  DateTime? @map("completed_at") @db.Timestamptz()
+  metadata     Json      @default("{}")
+  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt    DateTime  @updatedAt @map("updated_at") @db.Timestamptz()
+
+  project    Project     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  sprint     Sprint?     @relation(fields: [sprintId], references: [id], onDelete: SetNull)
+  parentTask Task?       @relation("TaskHierarchy", fields: [parentTaskId], references: [id], onDelete: SetNull)
+  creator    User        @relation("TaskCreator", fields: [creatorId], references: [id], onDelete: Cascade)
+  assignee   User?       @relation("TaskAssignee", fields: [assigneeId], references: [id], onDelete: SetNull)
+  childTasks Task[]      @relation("TaskHierarchy")
+  comments   TaskComment[]
+  statusLogs TaskStatusLog[]
+  aiUsage    AiUsageRecord[]
+
+  @@map("tasks")
+}
+
+model TaskComment {
+  id        String   @id @default(uuid()) @db.Uuid
+  taskId    String   @map("task_id") @db.Uuid
+  authorId  String   @map("author_id") @db.Uuid
+  content   String   @db.Text
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
+
+  task   Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@map("task_comments")
+}
+
+model TaskStatusLog {
+  id         String   @id @default(uuid()) @db.Uuid
+  taskId     String   @map("task_id") @db.Uuid
+  fromState  String?  @map("from_state") @db.VarChar(20)
+  toState    String   @map("to_state") @db.VarChar(20)
+  changedBy  String   @map("changed_by") @db.Uuid
+  changedAt  DateTime @default(now()) @map("changed_at") @db.Timestamptz()
+
+  task    Task @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  changer User @relation(fields: [changedBy], references: [id], onDelete: Cascade)
+
+  @@map("task_status_logs")
+}
+
+model Document {
+  id           String   @id @default(uuid()) @db.Uuid
+  projectId    String?  @map("project_id") @db.Uuid
+  documentCode String   @unique @map("document_code") @db.VarChar(30)
+  title        String   @db.VarChar(500)
+  content      String   @default("") @db.Text
+  creatorId    String   @map("creator_id") @db.Uuid
+  updatedBy    String?  @map("updated_by") @db.Uuid
+  status       Boolean  @default(true)
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt    DateTime @updatedAt @map("updated_at") @db.Timestamptz()
+
+  project  Project?           @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  creator  User               @relation("DocumentCreator", fields: [creatorId], references: [id], onDelete: Cascade)
+  updater  User?              @relation("DocumentUpdater", fields: [updatedBy], references: [id], onDelete: SetNull)
+  versions DocumentVersion[]
+
+  @@map("documents")
+}
+
+model DocumentVersion {
+  id            String   @id @default(uuid()) @db.Uuid
+  documentId    String   @map("document_id") @db.Uuid
+  versionNumber Int      @map("version_number")
+  content       String   @db.Text
+  createdBy     String   @map("created_by") @db.Uuid
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz()
+
+  document Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  creator  User     @relation(fields: [createdBy], references: [id], onDelete: Cascade)
+
+  @@unique([documentId, versionNumber])
+  @@map("document_versions")
+}
+
+model AiUsageRecord {
+  id               String   @id @default(uuid()) @db.Uuid
+  userId           String   @map("user_id") @db.Uuid
+  projectId        String?  @map("project_id") @db.Uuid
+  taskId           String?  @map("task_id") @db.Uuid
+  provider         String   @db.VarChar(50)
+  modelName        String   @map("model_name") @db.VarChar(100)
+  requestType      String   @default("chat") @map("request_type") @db.VarChar(30)
+  promptTokens     Int      @default(0) @map("prompt_tokens")
+  completionTokens Int      @default(0) @map("completion_tokens")
+  estimatedCost    Decimal  @default(0) @map("estimated_cost") @db.Decimal(10, 6)
+  requestDurationMs Int?    @map("request_duration_ms")
+  createdAt        DateTime @default(now()) @map("created_at") @db.Timestamptz()
+
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project Project? @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  task    Task?    @relation(fields: [taskId], references: [id], onDelete: SetNull)
+
+  @@map("ai_usage_records")
+}

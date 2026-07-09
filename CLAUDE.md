@@ -6,7 +6,14 @@
 
 TaskPilot AI — 一个 AI 驱动的项目任务管理平台。
 
-**Monorepo 结构**：pnpm workspace，当前包含 `apps/web`（Vite + React 前端）。根目录存放 workspace 级配置和工具（husky、commitlint、oxlint、prettier、TypeScript），应用代码在 `apps/web/` 下。
+**Monorepo 结构**：pnpm workspace，包含两个应用包：
+
+| 包名  | 路径        | 说明                            |
+| ----- | ----------- | ------------------------------- |
+| `web` | `apps/web/` | Vite + React 前端（TS 6.x）     |
+| `api` | `apps/api/` | NestJS + GraphQL 后端（TS 5.x） |
+
+根目录存放 workspace 级配置和工具（husky、commitlint、oxlint、prettier、TypeScript 6.x）。
 
 ## 常用命令
 
@@ -22,7 +29,56 @@ TaskPilot AI — 一个 AI 驱动的项目任务管理平台。
 | `pnpm codegen`         | 根据后端 GraphQL schema 生成 TS 类型和 hooks |
 | `pnpm install`         | 安装依赖（需要 pnpm ≥ 10，Node ≥ 20）        |
 
-**Pre-commit**（husky + lint-staged）：`*.{ts,tsx}` 文件依次执行 prettier → oxlint → `tsc -b --noEmit`。提交信息通过 commitlint 强制遵循 Conventional Commits 规范。
+**API 命令**：
+
+| 命令               | 说明                                |
+| ------------------ | ----------------------------------- |
+| `pnpm dev:api`     | 启动 NestJS 开发服务器（端口 3000） |
+| `pnpm build:api`   | 编译 NestJS 项目                    |
+| `pnpm start:api`   | 启动生产模式（`node dist/main`）    |
+| `pnpm db:migrate`  | 运行 Prisma 数据库迁移              |
+| `pnpm db:generate` | 生成 Prisma Client                  |
+| `pnpm db:studio`   | 启动 Prisma Studio 数据库浏览器     |
+| `pnpm format:api`  | 格式化 api 源码（prettier）         |
+
+**Pre-commit**（husky + lint-staged）：`apps/web/**/*.{ts,tsx}` 文件依次执行 prettier → oxlint → `tsc -b --noEmit`；`apps/api/**/*.ts` 仅执行 prettier。提交信息通过 commitlint 强制遵循 Conventional Commits 规范。
+
+## API 后端（`apps/api/`）
+
+### 技术栈
+
+- **框架**：NestJS 10 + TypeScript 5.x（CommonJS 模块系统）
+- **API 层**：GraphQL（`@nestjs/graphql` + Apollo Server 4）
+- **数据库**：PostgreSQL 16 + Prisma ORM 5.x
+- **认证**：JWT（`@nestjs/jwt` + `passport-jwt`）
+- **验证**：class-validator + class-transformer
+
+### 模块结构（`apps/api/src/`）
+
+```
+src/
+├── main.ts                  # 入口：NestJS 应用启动
+├── app.module.ts            # 根模块
+├── common/                  # 公共服务（Prisma、拦截器、过滤器等）
+├── auth/                    # JWT 认证模块
+├── users/                   # 用户模块
+├── departments/             # 部门模块
+├── positions/               # 职位模块
+├── projects/                # 项目模块
+├── sprints/                 # Sprint 模块
+├── tasks/                   # 任务模块
+├── documents/               # 文档模块
+└── ai-usage/                # AI 用量统计模块
+```
+
+### 数据库
+
+- **Schema**：`apps/api/prisma/schema.prisma`
+- **Migrations**：`apps/api/prisma/migrations/`
+- **本地数据库**：`docker compose up`（在 `apps/api/` 下运行）
+- **连接字符串**：`DATABASE_URL` 在 `apps/api/.env` 中配置
+
+> 注意：api 使用 TS 5.x + CommonJS，与 web 的 TS 6.x + ESM 不同。api 不参与根 `tsc -b` 类型检查，通过 `pnpm build:api`（内部调用 `nest build`）独立编译。
 
 ## 技术栈
 

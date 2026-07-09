@@ -1,0 +1,8 @@
+{
+  "@prisma/client": true,
+  "prisma": true,
+  "bcrypt": true,
+  "@nestjs/core": true,
+  "@apollo/protobufjs": true,
+  "@prisma/engines": true
+}
