@@ -1,65 +1,26 @@
 {
   "name": "taskpilot-ai",
   "private": true,
-  "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "typecheck": "tsc -b",
+    "dev": "pnpm --filter web dev",
+    "build": "pnpm --filter web build",
+    "typecheck": "pnpm --filter web typecheck",
     "lint": "oxlint",
-    "preview": "vite preview",
+    "preview": "pnpm --filter web preview",
     "prepare": "husky",
-    "codegen": "graphql-codegen --config codegen.ts && node scripts/fix-codegen.cjs && prettier --write src/generated/graphql.ts",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
-  },
-  "dependencies": {
-    "@apollo/client": "^4.2.6",
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
-    "@mui/material": "^9.2.0",
-    "graphql": "^16.14.2",
-    "i18next": "^26.3.4",
-    "lucide-react": "^1.23.0",
-    "mitt": "^3.0.1",
-    "react": "^19.2.7",
-    "react-dom": "^19.2.7",
-    "react-i18next": "^17.0.8",
-    "react-router": "^7.18.1",
-    "styled-components": "^6.4.3",
-    "zustand": "^5.0.14"
+    "codegen": "pnpm --filter web codegen",
+    "storybook": "pnpm --filter web storybook",
+    "build-storybook": "pnpm --filter web build-storybook"
   },
   "devDependencies": {
-    "@chromatic-com/storybook": "^5.2.1",
     "@commitlint/cli": "^21.2.0",
     "@commitlint/config-conventional": "^21.2.0",
-    "@graphql-codegen/cli": "^7.2.0",
-    "@graphql-codegen/typescript": "^6.1.0",
-    "@graphql-codegen/typescript-operations": "^6.1.0",
-    "@graphql-codegen/typescript-react-apollo": "^4.4.2",
-    "@storybook/addon-a11y": "^10.4.6",
-    "@storybook/addon-docs": "^10.4.6",
-    "@storybook/addon-mcp": "^0.6.0",
-    "@storybook/addon-vitest": "^10.4.6",
-    "@storybook/react-vite": "^10.4.6",
-    "@types/node": "^26.1.1",
-    "@types/react": "^19.2.17",
-    "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^6.0.3",
-    "@vitest/browser-playwright": "^4.1.10",
-    "@vitest/coverage-v8": "^4.1.10",
     "husky": "^9.1.7",
     "lint-staged": "^17.0.8",
-    "msw": "^2.14.6",
     "oxlint": "^1.71.0",
-    "playwright": "^1.61.1",
     "prettier": "^3.9.4",
-    "sass-embedded": "^1.100.0",
-    "storybook": "^10.4.6",
-    "typescript": "~6.0.2",
-    "vite": "^8.1.1",
-    "vitest": "^4.1.10"
+    "typescript": "~6.0.2"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
@@ -68,11 +29,8 @@
       "@parcel/watcher"
     ],
     "overrides": {
-      "graphql": "$graphql"
+      "graphql": "^16.14.2"
     }
-  },
-  "msw": {
-    "workerDirectory": "public"
   },
   "lint-staged": {
     "*.{ts,tsx}": [

@@ -6,6 +6,8 @@
 
 TaskPilot AI — 一个 AI 驱动的项目任务管理平台。
 
+**Monorepo 结构**：pnpm workspace，当前包含 `apps/web`（Vite + React 前端）。根目录存放 workspace 级配置和工具（husky、commitlint、oxlint、prettier、TypeScript），应用代码在 `apps/web/` 下。
+
 ## 常用命令
 
 | 命令                   | 说明                                         |
@@ -34,14 +36,14 @@ TaskPilot AI — 一个 AI 驱动的项目任务管理平台。
 - **图标**：`lucide-react`，按需直接导入使用
 - **测试**：Vitest + Playwright（通过 `@storybook/addon-vitest` 集成）
 - **组件开发**：Storybook 10（`@storybook/react-vite`），全局样式和 MUI 主题已在 `.storybook/preview.tsx` 中注入，支持响应式视口切换（XS-XXL）
-- **全局样式**：`src/styles/global.scss`（overscroll 控制、a 标签重置、移动端橡皮筋效果）通过 `src/styles/index.scss` 统一入口
+- **全局样式**：`apps/web/src/styles/global.scss`（overscroll 控制、a 标签重置、移动端橡皮筋效果）通过 `apps/web/src/styles/index.scss` 统一入口
 
 ## 架构
 
-### 应用启动流程（`src/main.tsx` → `src/components/layout/App.tsx`）
+### 应用启动流程（`apps/web/src/main.tsx` → `apps/web/src/components/layout/App.tsx`）
 
 ```
-main.tsx
+apps/web/src/main.tsx
   ├─ MSW（开发环境下 VITE_ENABLE_MOCK === 'true' 时启用）
   └─ App
        ├─ I18nextProvider
@@ -50,19 +52,19 @@ main.tsx
        └─ RouterProvider
 ```
 
-### 路由（`src/routers/`）
+### 路由（`apps/web/src/routers/`）
 
 - `index.tsx` — 使用 `createBrowserRouter` 创建路由，每个路由配有错误边界。每个页面组件通过 `lazy()` 懒加载。根路径 `/` 重定向到 `/tasks`。`*` 通配符渲染 NotFound 组件。
 - `path.ts` — 定义了所有规划模块的路由元数据（`RouteConfig[]`）：dashboard、tasks、staffs、schedules、reports、documents、locations，以及设置子路由。**目前仅 `/tasks` 已接入路由**，其余尚未连接。
 
-### 模块结构（`src/modules/`）
+### 模块结构（`apps/web/src/modules/`）
 
-业务模块遵循 `src/modules/<名称>/page/<页面名>/index.tsx` 模式。目前仅存在 `task/page/Landing`。新增模块应沿用此结构。
+业务模块遵循 `apps/web/src/modules/<名称>/page/<页面名>/index.tsx` 模式。目前仅存在 `task/page/Landing`。新增模块应沿用此结构。
 
 ### 组件层级
 
 ```
-Layout (src/components/layout/index.tsx)
+Layout (apps/web/src/components/layout/index.tsx)
   ├─ Navbar — 固定顶栏，随滚动联动（渐变 + 模糊 + 阴影随滚动进度变化）
   ├─ <Outlet /> — 页面内容
   └─ Footer
@@ -70,10 +72,10 @@ Layout (src/components/layout/index.tsx)
 
 - `Header` — 页面级横幅，含背景图片，根据固定 Navbar 高度（64px）留出内边距
 - `NotFound` / `ErrorBoundary` — 通用错误/404 页面；ErrorBoundary 使用 `IllustrationCard`
-- `IllustrationCard`（`components/molecules/IllustrationCard/`）— 可复用的卡片组件，通过 `type`/`size`/`name` 动态加载 SVG 插图；支持 `variant`（info/success/error）和 `loading` 状态
-- Storybook stories 统一放在 `src/stories/` 目录下
+- `IllustrationCard`（`apps/web/src/components/molecules/IllustrationCard/`）— 可复用的卡片组件，通过 `type`/`size`/`name` 动态加载 SVG 插图；支持 `variant`（info/success/error）和 `loading` 状态
+- Storybook stories 统一放在 `apps/web/src/stories/` 目录下
 
-### 状态管理（`src/stores/`）
+### 状态管理（`apps/web/src/stores/`）
 
 | Store          | 用途                                                 |
 | -------------- | ---------------------------------------------------- |
@@ -82,9 +84,9 @@ Layout (src/components/layout/index.tsx)
 
 Store 使用 Zustand 的 `create()`，将 state 和 actions 放在同一个 slice 中。Selector 以 getter 函数形式实现在 store 上（如 `filteredTasks()`、`taskCount()`）。
 
-### 设计 Token（`src/tokens/base/`）
+### 设计 Token（`apps/web/src/tokens/base/`）
 
-一套完整的设计 Token 系统，由 `src/tokens/base/index.ts` 聚合导出。Token 是纯对象（非 CSS 自定义属性），直接被 MUI 主题配置和内联 `sx` 属性消费。主要类别：
+一套完整的设计 Token 系统，由 `apps/web/src/tokens/base/index.ts` 聚合导出。Token 是纯对象（非 CSS 自定义属性），直接被 MUI 主题配置和内联 `sx` 属性消费。主要类别：
 
 - **Color** — 500+ 语义化颜色 Token，覆盖文本、图标、背景、边框、徽章、插画。命名遵循严格约定：`color<类别><角色><状态>`（如 `colorTextHighlightHover`、`colorFilledPrimaryPressed`）。
 - **Typography** — 字体家族、字号、字重、行高 Token
@@ -92,34 +94,34 @@ Store 使用 Zustand 的 `create()`，将 state 和 actions 放在同一个 slic
 - **Border radius** — `borderRadiusGeneralAllRound` 等
 - **Shadow、Gradient、Dimension** Token
 
-### MUI 主题定制（`src/config/theme.config.ts` + `src/types/mui.d.ts`）
+### MUI 主题定制（`apps/web/src/config/theme.config.ts` + `apps/web/src/types/mui.d.ts`）
 
 - **Breakpoints**：在默认五个断点基础上新增 `xxl: 1560`
 - **Palette**：`text` 扩展了 `description`、`placeholder`、`onColor`、`highlight`、`highlightHover`、`highlightPressed`、`visitedLink`、`button`、`buttonHover`、`buttonPressed`、`error`、`errorHover`、`errorPressed`。`background` 扩展了 `primary`、`disabled`、`highlight`、`semanticInfo`。新增 `neutral`（含 `black`、`white`、`transparent`）。
 - **Typography variants**：20+ 自定义变体（`heading1`、`heading2`、`subtitle3`、`body1Highlight`、`body2Highlight`、`body3`、`body3Highlight`、`ctaButton1`、`ctaButton2`、`ctaIconButton`、`ctaLink`、`tabDefault`、`tabHighlight`、`inputFieldTitle`、`inputFieldPlaceholder`、`label1`、`label2`、`label3`、`searchHighlight`）— 全部在 `mui.d.ts` 模块增强中声明。
 - 组件覆写（MuiCssBaseline、MuiTypography variantMapping、MuiButton、MuiInputBase、MuiDialog、MuiDialogTitle、MuiMenuItem）目前**已被注释**，但代表了预期的覆盖模式。
 
-### i18n（`src/locales/`）
+### i18n（`apps/web/src/locales/`）
 
 翻译 JSON 文件：`converted_en.json`、`converted_sc.json`、`converted_tc.json`。i18n 实例从 `localStorage.getItem('locale')` 初始化语言，回退到 `tc`。翻译 key 使用 snake_case，采用模块前缀约定（如 `navmenu__task`、`dialog__logout_title`）。
 
-### API Mock（`src/mocks/`）
+### API Mock（`apps/web/src/mocks/`）
 
-MSW 浏览器 Worker 已在 `src/mocks/browser.ts` 中配置。`src/mocks/handlers.ts` 中的 `handlers` 数组目前为空 — 待 API 接口确定后在此添加 REST/GraphQL handler。在开发环境中设置 `VITE_ENABLE_MOCK=true` 启用 Mock。
+MSW 浏览器 Worker 已在 `apps/web/src/mocks/browser.ts` 中配置。`apps/web/src/mocks/handlers.ts` 中的 `handlers` 数组目前为空 — 待 API 接口确定后在此添加 REST/GraphQL handler。在开发环境中设置 `VITE_ENABLE_MOCK=true` 启用 Mock。
 
-### GraphQL 客户端（`src/config/apollo.config.ts` + `codegen.ts`）
+### GraphQL 客户端（`apps/web/src/config/apollo.config.ts` + `apps/web/codegen.ts`）
 
 - **Apollo Client 4**：通过 HTTP Link 连接 NestJS GraphQL 端点（`VITE_GRAPHQL_URI` 环境变量，默认 `http://localhost:3000/graphql`）
 - **`ApolloProvider`** 挂载在 `App.tsx` 最外层，`.storybook/preview.tsx` 中也已注入该 Provider
-- **GraphQL Codegen**：运行 `pnpm codegen`（需要后端服务正在运行）将 `src/graphql/**/*.graphql` 中的 operation 编译为 `src/generated/graphql.ts`（已 gitignore）。生成内容包括 TypeScript 类型 + `useXxxQuery`/`useXxxMutation` hooks
-- **Operations 目录结构**：`src/graphql/operations/` 放 query/mutation，`src/graphql/fragments/` 放可复用的 fragment
+- **GraphQL Codegen**：运行 `pnpm codegen`（需要后端服务正在运行）将 `apps/web/src/graphql/**/*.graphql` 中的 operation 编译为 `apps/web/src/generated/graphql.ts`（已 gitignore）。生成内容包括 TypeScript 类型 + `useXxxQuery`/`useXxxMutation` hooks
+- **Operations 目录结构**：`apps/web/src/graphql/operations/` 放 query/mutation，`apps/web/src/graphql/fragments/` 放可复用的 fragment
 - Apollo Client 的默认 fetch policy：`watchQuery` 使用 `cache-and-network`，`query` 使用 `network-only`
 - GraphQL 数据由 Apollo Client 负责缓存，Zustand 仅管理纯 UI 状态（如侧边栏开关、语言切换），不存储服务端数据
 
 ## 应遵循的代码模式
 
 - **遇到 MUI 相关问题时，优先使用 `mcp__mui-mcp` 工具链查阅官方文档**，而非凭记忆回答。`.mcp.json` 中已配置 `@mui/mcp` 服务器，可用工具包括 `useMuiDocs`（获取组件文档）、`fetchDocs`（抓取指定 URL 文档）
-- 所有内部导入使用 `@/` 路径别名（在 `tsconfig.app.json` 和 `vite.config.ts` 中均已配置）
+- 所有内部导入使用 `@/` 路径别名（在 `apps/web/tsconfig.app.json` 和 `apps/web/vite.config.ts` 中均已配置）
 - MUI 组件从其具体路径单独导入（如 `@mui/material/Box`），而非从 barrel export 导入 — 代码库已一致采用此做法
 - 使用 `sx` 属性进行组件样式设置；设计 Token 直接引用（如 `tokens.colorTextHighlight`）
 - 组件类型签名使用 `React.FC<Props>`，并显式设置 `displayName`
