@@ -1,0 +1,4 @@
+# Custom Claude Code slash commands for this project.
+# Each command file defines a slash command usable as /<filename>.
+#
+# Example: .claude/commands/deploy.md → /deploy
