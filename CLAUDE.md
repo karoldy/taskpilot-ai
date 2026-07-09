@@ -186,3 +186,28 @@ MSW 浏览器 Worker 已在 `apps/web/src/mocks/browser.ts` 中配置。`apps/we
 - 组件遵循分层设计：`molecules/`（组合组件如 IllustrationCard）；暂无 `atoms/` 和 `organisms/`
 - oxlint 配置了 React + TypeScript 插件；`typescript/no-explicit-any` 设为 error 级别
 - Prettier：单引号、分号、尾逗号（all）、打印宽度 100
+
+## 环境变量
+
+### `apps/web/.env`
+
+| 变量               | 说明              | 默认值                          |
+| ------------------ | ----------------- | ------------------------------- |
+| `VITE_GRAPHQL_URI` | GraphQL API 端点  | `http://localhost:3000/graphql` |
+| `VITE_ENABLE_MOCK` | 启用 MSW API Mock | `false`                         |
+
+### `apps/api/.env`
+
+| 变量                     | 说明                 | 默认值                                                                       |
+| ------------------------ | -------------------- | ---------------------------------------------------------------------------- |
+| `DATABASE_URL`           | PostgreSQL 连接      | `postgresql://taskpilot:taskpilot123@localhost:5432/taskpilot?schema=public` |
+| `JWT_SECRET`             | JWT 签名密钥         | `dev-secret-change-in-production`                                            |
+| `JWT_ACCESS_EXPIRES_IN`  | Access Token 有效期  | `10h`                                                                        |
+| `JWT_REFRESH_EXPIRES_IN` | Refresh Token 有效期 | `7d`                                                                         |
+
+## 跨包注意事项
+
+- **TS 版本不同**：web 使用 TS 6.x + ESM，api 使用 TS 5.x + CommonJS。根 `tsc -b` 仅引用 web 的 tsconfig；api 通过 `nest build` 独立编译
+- **Lint 工具不同**：web 使用 oxlint（rule 严格，禁止 `any`），api 使用 eslint。根 oxlint 配置已排除 `apps/api/`
+- **graphql 版本统一**：根 `overrides` 将 graphql 固定在 `^16.14.2`，确保 web 和 api 使用同一版本
+- **`.env` 文件**：两个包各自维护 `.env`，均被 `.gitignore` 排除
