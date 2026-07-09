@@ -3,7 +3,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { I18nextProvider } from 'react-i18next';
 import { RouterProvider } from 'react-router/dom';
 import { ApolloProvider } from '@apollo/client/react';
-import GraphQLErrorDialog from '@/components/molecules/GraphQLErrorDialog';
+import GraphQLErrorDialog from '@/components/organisms/GraphQLErrorDialog';
 import apolloClient from '@/config/apollo.config';
 import theme from '@/config/theme.config';
 import i18n from '@/locales';

@@ -1,11 +1,11 @@
 import { lazy } from 'react';
 import { createBrowserRouter, Navigate, type RouteObject } from 'react-router';
-import ErrorBoundary from '@/components/layout/ErrorBoundary';
+import ErrorBoundary from '@/components/layouts/ErrorBoundary';
 
 const routers: RouteObject[] = [
   {
     path: '*',
-    Component: lazy(() => import('@/components/layout/NotFound')),
+    Component: lazy(() => import('@/components/layouts/NotFound')),
     ErrorBoundary,
   },
   {
@@ -20,7 +20,7 @@ const routers: RouteObject[] = [
   {
     path: '/login',
     // HydrateFallback: () => <LinearProgress />,
-    Component: lazy(() => import('@/modules/auth/pages/Login')),
+    Component: lazy(() => import('@/views/auth/login')),
     ErrorBoundary,
     hasErrorBoundary: true,
   },
@@ -30,15 +30,11 @@ const routers: RouteObject[] = [
     hasErrorBoundary: true,
     children: [
       {
-        Component: lazy(() => import('@/components/layout')),
+        Component: lazy(() => import('@/components/layouts')),
         children: [
           {
-            path: 'projects',
-            Component: lazy(() => import('@/modules/project/pages/Landing')),
-          },
-          {
             path: 'tasks',
-            Component: lazy(() => import('@/modules/task/pages/Landing')),
+            Component: lazy(() => import('@/views/task/landing')),
           },
         ],
       },

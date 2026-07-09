@@ -2,8 +2,8 @@ import { useState, useCallback } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Table from '@/components/molecules/Table';
-import type { IColumn, ITableProps } from '@/components/molecules/Table';
+import Table from '@/components/atoms/Table';
+import type { IColumn, ITableProps } from '@/components/atoms/Table';
 import { SortOrder } from '@/constants/enum';
 
 interface SampleUser {
@@ -80,7 +80,7 @@ const sampleData: SampleUser[] = [
 ];
 
 const meta: Meta<typeof Table<SampleUser>> = {
-  title: 'Molecules/Table',
+  title: 'Atoms/Table',
   component: Table,
   tags: ['autodocs'],
   parameters: {

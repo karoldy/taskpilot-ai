@@ -1,6 +1,6 @@
 import { useEffect, type FC, type ReactNode } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import TaskLandingPage from '@/modules/task/pages/Landing';
+import TaskLandingPage from '@/views/task/landing';
 import { useTaskStore, type Task } from '@/stores/useTaskStore';
 
 const defaultFilters = {

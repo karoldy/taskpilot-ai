@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import tokens from '@/tokens/base';
-import Navbar from '@/components/layout/Navbar';
+import Navbar from '@/components/layouts/Navbar';
 
 const meta: Meta<typeof Navbar> = {
   title: 'Layout/Navbar',

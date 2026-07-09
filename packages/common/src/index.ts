@@ -1,3 +1,15 @@
+export {
+  loginSchema,
+  forgotPasswordSchema,
+  registerSchema,
+} from './schemas/auth';
+
+export type {
+  LoginFormValues,
+  ForgotPasswordFormValues,
+  RegisterFormValues,
+} from './schemas/auth';
+
 /**
  * Generic paginated result returned by list queries.
  */

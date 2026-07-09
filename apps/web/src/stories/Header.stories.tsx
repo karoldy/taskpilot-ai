@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Header from '@/components/layout/Header';
+import Header from '@/components/layouts/Header';
 
 const meta: Meta<typeof Header> = {
   title: 'Layout/Header',
