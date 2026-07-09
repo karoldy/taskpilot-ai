@@ -19,3 +19,25 @@ description: Stage all changes, commit with Conventional Commits, and push to re
 - 若无明显的 scope，使用 `project`
 - 提交信息使用中文描述，简洁明了
 - 全部步骤自动执行，无需用户逐项确认
+
+## 示例
+
+```
+# 前端新功能
+feat(web): 添加用户登录页面
+
+# 后端接口变更
+feat(api): 新增项目批量删除接口
+
+# 共享包提取
+refactor(common): 提取分页工具到 packages/common
+
+# 文档更新
+docs(project): 更新 README 和开发文档
+
+# Monorepo 结构调整
+chore(workspace): 添加 packages 目录到 workspace
+
+# Bug 修复
+fix(api): 修复 token 过期未正确处理的问题
+```
