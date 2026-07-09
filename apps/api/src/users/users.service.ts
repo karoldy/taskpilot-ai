@@ -4,7 +4,7 @@ import { PrismaService } from '../common/prisma.service';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { PaginationArgs, SortOrder } from '../common/pagination/pagination.args';
-import { paginate, PaginatedResult } from '../common/pagination/pagination.helper';
+import { paginate, PaginatedResult } from '@taskpilot/common';
 
 @Injectable()
 export class UsersService {

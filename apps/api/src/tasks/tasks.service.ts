@@ -5,7 +5,7 @@ import { UpdateTaskInput } from './dto/update-task.input';
 import { CreateCommentInput } from './dto/create-comment.input';
 import { TaskState } from './models/task.model';
 import { PaginationArgs, SortOrder } from '../common/pagination/pagination.args';
-import { paginate, PaginatedResult } from '../common/pagination/pagination.helper';
+import { paginate, PaginatedResult } from '@taskpilot/common';
 
 @Injectable()
 export class TasksService {

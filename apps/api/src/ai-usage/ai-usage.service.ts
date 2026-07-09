@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../common/prisma.service';
 import { PaginationArgs, SortOrder } from '../common/pagination/pagination.args';
-import { paginate, PaginatedResult } from '../common/pagination/pagination.helper';
+import { paginate, PaginatedResult } from '@taskpilot/common';
 
 @Injectable()
 export class AiUsageService {

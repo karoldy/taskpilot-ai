@@ -4,7 +4,7 @@ import { CreateProjectInput } from './dto/create-project.input';
 import { UpdateProjectInput } from './dto/update-project.input';
 import { AddProjectMemberInput } from './dto/add-project-member.input';
 import { PaginationArgs, SortOrder } from '../common/pagination/pagination.args';
-import { paginate, PaginatedResult } from '../common/pagination/pagination.helper';
+import { paginate, PaginatedResult } from '@taskpilot/common';
 
 @Injectable()
 export class ProjectsService {

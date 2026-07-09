@@ -3,7 +3,7 @@ import { PrismaService } from '../common/prisma.service';
 import { CreateDocumentInput } from './dto/create-document.input';
 import { UpdateDocumentInput } from './dto/update-document.input';
 import { PaginationArgs, SortOrder } from '../common/pagination/pagination.args';
-import { paginate, PaginatedResult } from '../common/pagination/pagination.helper';
+import { paginate, PaginatedResult } from '@taskpilot/common';
 
 @Injectable()
 export class DocumentsService {
