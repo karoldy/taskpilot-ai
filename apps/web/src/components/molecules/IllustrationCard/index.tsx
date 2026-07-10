@@ -1,5 +1,6 @@
 import * as React from 'react';
 import tokens from '@/tokens/base';
+import { containedButton, typography } from "@/tokens/style";
 import Box from '@mui/material/Box';
 import Stack, { type StackProps } from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
@@ -79,16 +80,26 @@ const IllustrationCard: React.FC<IIllustrationCardProps> = ({
       >
         {title && (
           <Typography
-            variant="subtitle1"
+            // variant="subtitle1"
             component="div"
-            color="text.primary"
-            sx={{ textAlign: 'center' }}
+            // color="text.primary"
+            align="center"
+            sx={{
+              ...typography.subtitle1,
+              color: tokens.colorTextPrimary
+            }}
           >
             {title}
           </Typography>
         )}
         {subtitle && (
-          <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>
+          <Typography
+            align="center"
+            sx={{
+              ...typography.body2,
+              color: tokens.colorTextSecondary
+            }}
+          >
             {subtitle + (code ? `(${code})` : '')}
           </Typography>
         )}
@@ -110,7 +121,7 @@ const IllustrationCard: React.FC<IIllustrationCardProps> = ({
             loading={loading}
             loadingPosition="start"
             fullWidth
-            sx={{ borderRadius: tokens.borderRadiusGeneralAllRound }}
+            sx={containedButton}
             onClick={onOk}
           >
             {okText}
@@ -138,7 +149,7 @@ const IllustrationCard: React.FC<IIllustrationCardProps> = ({
                 loading={loading}
                 loadingPosition="start"
                 fullWidth
-                sx={{ borderRadius: tokens.borderRadiusGeneralAllRound }}
+                sx={containedButton}
                 onClick={onOk}
               >
                 {okText}

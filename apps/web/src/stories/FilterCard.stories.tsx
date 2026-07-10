@@ -106,7 +106,7 @@ export const WithChildren: Story = {
     count: 156,
     primary: true,
     children: (
-      <Typography variant="body3" color="text.onColor" sx={{ opacity: 0.7 }}>
+      <Typography color="text.onColor" sx={{ opacity: 0.7 }}>
         Total tasks across all projects
       </Typography>
     ),
@@ -135,7 +135,7 @@ export const FullFeatured: Story = {
       />
     ),
     children: (
-      <Typography variant="body3" color="text.onColor" sx={{ opacity: 0.7 }}>
+      <Typography color="text.onColor" sx={{ opacity: 0.7 }}>
         Overdue tasks requiring immediate attention
       </Typography>
     ),

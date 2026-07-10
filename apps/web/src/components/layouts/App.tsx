@@ -3,11 +3,12 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { I18nextProvider } from 'react-i18next';
 import { RouterProvider } from 'react-router/dom';
 import { ApolloProvider } from '@apollo/client/react';
-import GraphQLErrorDialog from '@/components/organisms/GraphQLErrorDialog';
+import FeedbackDialog from '@/components/organisms/FeedbackDialog';
 import apolloClient from '@/config/apollo.config';
 import theme from '@/config/theme.config';
 import i18n from '@/locales';
 import routers from '@/routers';
+import "@/config/dayjs.config";
 
 export default function App() {
   return (
@@ -16,7 +17,7 @@ export default function App() {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <RouterProvider router={routers} />
-          <GraphQLErrorDialog />
+          <FeedbackDialog />
         </ThemeProvider>
       </I18nextProvider>
     </ApolloProvider>

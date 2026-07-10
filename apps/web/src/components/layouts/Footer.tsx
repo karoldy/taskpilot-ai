@@ -1,5 +1,6 @@
 import * as React from 'react';
 import tokens from '@/tokens/base';
+import { typography } from "@/tokens/style";
 import { useTranslation } from 'react-i18next';
 import Box, { type BoxProps } from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -27,8 +28,15 @@ const Footer: React.FC<IFooterProps> = ({ children, ...rest }) => {
       }}
     >
       {children}
-      <Typography component="span" variant="body3" color="text.onColor" className="cursor-default">
-        {t('footer__terms')}
+      <Typography
+        component="span"
+        sx={{
+          ...typography.body3,
+          color: tokens.colorTextOnColor,
+          cursor: 'default'
+        }}
+      >
+        {t('web_footer__terms')}
       </Typography>
     </Box>
   );

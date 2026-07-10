@@ -21,7 +21,7 @@ export const WithContent: Story = {
   args: {
     children: (
       <Box sx={{ position: 'relative', zIndex: 1, p: 4 }}>
-        <Typography variant="heading1" color="text.onColor">
+        <Typography color="text.onColor">
           Task Management
         </Typography>
       </Box>

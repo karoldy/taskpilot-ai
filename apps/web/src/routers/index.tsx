@@ -1,5 +1,6 @@
 import { lazy } from 'react';
 import { createBrowserRouter, Navigate, type RouteObject } from 'react-router';
+import { authMiddleware } from "@/routers/middleware";
 import ErrorBoundary from '@/components/layouts/ErrorBoundary';
 
 const routers: RouteObject[] = [
@@ -28,6 +29,7 @@ const routers: RouteObject[] = [
     path: '/',
     ErrorBoundary,
     hasErrorBoundary: true,
+    middleware: [authMiddleware],
     children: [
       {
         Component: lazy(() => import('@/components/layouts')),

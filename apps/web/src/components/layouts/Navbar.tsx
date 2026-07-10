@@ -1,14 +1,9 @@
 import * as React from 'react';
-// import clsx from "clsx";
 import { ROOT_PATH } from '@/routers/path';
-// import { IMAGE_WARM_LEAVE_80x80 } from '@/constants/image';
 import tokens from '@/tokens/base';
-// import { useAppSelector } from "@/hooks/useReduxSlice";
+import { typography } from "@/tokens/style";
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
-// import { useRequest } from "alova/client";
-// import { smalLogout } from "@/modules/auth/api";
-// import { Icon } from "@iconify/react";
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import {
@@ -28,27 +23,7 @@ import Drawer from '@mui/material/Drawer';
 import Dialog from '@mui/material/Dialog';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-// import Sidebar from "@/components/layout/Sidebar";
-// import VIcon from "@/components/atoms/VIcon";
-// import LanguagePicker from "@/components/molecules/Pickers/LanguagePicker";
-// import FontSizePicker from "@/components/molecules/Pickers/FontSizePicker";
 import IllustrationCard from '../molecules/IllustrationCard';
-// import PersonalProfile from "@/modules/auth/components/PersonalProfile";
-// import NotificationPanel from "@/modules/notification/components/NotificationPanel";
-// import { getPersonalInfo } from "@/modules/staff/api";
-// import { usePermission } from '@/hooks/usePermission';
-// import { useDispatch, useSelector } from "react-redux";
-// import type { AppDispatch, RootState } from "@/stores";
-// import {
-//   fetchNotificationCount,
-//   fetchNotificationList,
-//   resetNotifications,
-//   markAllNotificationsRead,
-//   checkNotificationUnreadIn7Days,
-// } from "@/stores/slices/notificationSlice";
-// import { setTaskId } from "@/stores/slices/taskSlice";
-// import { logoutHandler } from '@/modules/auth/shared';
-// import LoadingModal from '@/components/molecules/Loading/LoadingModal';
 
 const IconMap = {
   project: FolderGit2,
@@ -323,7 +298,12 @@ const Navbar: React.FC<INavbarProps> = ({ children, ...rest }) => {
               cursor: 'pointer',
             }}
           >
-            <Typography variant="body2Highlight" color="text.onColor">
+            <Typography
+              sx={{
+                ...typography.body2Highlight,
+                color: tokens.colorTextOnColor
+              }}
+            >
               SA
             </Typography>
           </Avatar>

@@ -30,11 +30,16 @@ components/
 | -------------------- | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
 | `FilterCard`         | `molecules/FilterCard/index.tsx`         | 任务筛选卡片，支持计数显示、primary/error 状态、毛玻璃背景效果、渐变色边框                                                          |
 | `IllustrationCard`   | `molecules/IllustrationCard/index.tsx`   | 通用插图卡片，通过 `type`/`size`/`name` 动态加载 SVG 插图，支持 info/success/error 三种 variant，常用于空状态、错误提示等场景       |
-| `GraphQLErrorDialog` | `molecules/GraphQLErrorDialog/index.tsx` | GraphQL 错误弹窗，监听事件总线（eventBus）中的 `graphql:error:*` 事件，按错误类型展示对应的插图提示（Forbidden / Server / Network） |
+| `FeedbackDialog` | `organisms/FeedbackDialog/index.tsx` | 通用反馈弹窗，监听事件总线（eventBus）中的 `graphql:error:*` 事件，按类型展示对应的插图提示（Forbidden / Server / Network） |
 
 ### Organisms（有机体）
 
-由分子和原子组成的完整功能区块，代表页面中一个独立的、可自包含的 UI 区域。该目录已预留，当前尚无具体组件。
+由分子和原子组成的完整功能区块，代表页面中一个独立的、可自包含的 UI 区域。
+
+| 组件               | 路径                                     | 说明                                                                     |
+| ------------------ | ---------------------------------------- | ------------------------------------------------------------------------ |
+| `FeedbackDialog`   | `organisms/FeedbackDialog/index.tsx`     | 通用反馈弹窗，按事件类型展示对应的插图提示（Forbidden / Server / Network） |
+| `RegisterDialog`   | `organisms/RegisterDialog/index.tsx`     | 注册表单弹窗，含表单验证、密码显隐、服务条款确认                            |
 
 ### Layouts（布局）
 

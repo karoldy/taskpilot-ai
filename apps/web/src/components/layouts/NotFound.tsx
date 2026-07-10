@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
+import { typography } from "@/tokens/style";
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
@@ -30,7 +31,12 @@ export default function NotFound() {
         height: '100vh',
       }}
     >
-      <Typography variant="heading2" sx={{ mb: 1 }}>
+      <Typography
+        sx={{
+          mb: 1,
+          ...typography.heading2
+        }}
+      >
         Page Not Found
       </Typography>
       <Typography variant="body2" color="text.description">

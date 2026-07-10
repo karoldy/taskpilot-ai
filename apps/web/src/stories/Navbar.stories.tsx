@@ -18,7 +18,7 @@ const meta: Meta<typeof Navbar> = {
         <Box sx={{ minHeight: '200vh', backgroundColor: tokens.colorBackgroundPagePrimary }}>
           <Story />
           <Box sx={{ p: 4, pt: '80px' }}>
-            <Typography variant="heading2">Scroll down to see the navbar effect</Typography>
+            <Typography>Scroll down to see the navbar effect</Typography>
           </Box>
         </Box>
       </MemoryRouter>

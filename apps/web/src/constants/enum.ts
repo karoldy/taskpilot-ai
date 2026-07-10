@@ -1,15 +1,15 @@
 export const Locale = {
-  EN: 'en',
   SC: 'sc',
   TC: 'tc',
+  EN: 'en',
 } as const;
 
 export type Locale = (typeof Locale)[keyof typeof Locale];
 
 export const Language = {
-  [Locale.EN]: 'en',
   [Locale.SC]: 'sc',
   [Locale.TC]: 'tc',
+  [Locale.EN]: 'en',
 } as const;
 
 export const PageSize = {
