@@ -41,3 +41,9 @@ input::-webkit-credentials-auto-fill-button {
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: none;
 }
+
+.truncate {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

@@ -9,6 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useLoginMutation } from '@/generated/graphql';
 import { setAuthTokens } from '@/lib/auth';
+import { useAuthStore } from '@/stores';
 import { Eye, EyeOff } from 'lucide-react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -38,6 +39,8 @@ const LoginForm: FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
+  const userStore = useAuthStore.getState();
+
   const {
     register,
     handleSubmit,
@@ -64,10 +67,9 @@ const LoginForm: FC = () => {
       };
       const result = await login({ variables });
       if (result?.data?.login) {
-        setAuthTokens({
-          accessToken: result.data.login.accessToken,
-          refreshToken: result.data.login.refreshToken,
-        });
+        const { accessToken, refreshToken, user } = result.data.login;
+        setAuthTokens({ accessToken, refreshToken });
+        userStore.setUser(user);
         navigate('/');
       }
     },

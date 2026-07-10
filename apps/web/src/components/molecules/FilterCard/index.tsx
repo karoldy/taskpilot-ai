@@ -1,5 +1,6 @@
 import { type ReactNode, type FC } from 'react';
 import tokens from '@/tokens/base';
+import { typography } from "@/tokens/style";
 import { ArrowUpRight } from 'lucide-react';
 import Box, { type BoxProps } from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -108,12 +109,13 @@ const FilterCard: FC<IFilterCardProps> = ({
               overflow: 'hidden',
             }}
           >
-            {/* <Chip
-              icon={<Smile color="white" />}
-              label="With Icon"
-            /> */}
             {chip}
-            <Typography variant="heading1" color="text.onColor">
+            <Typography
+              sx={{
+                ...typography.heading1,
+                color: tokens.colorTextOnColor
+              }}
+            >
               {count}
             </Typography>
           </Stack>

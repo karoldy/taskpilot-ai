@@ -3,7 +3,9 @@ import { ROOT_PATH } from '@/routers/path';
 import tokens from '@/tokens/base';
 import { typography } from "@/tokens/style";
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
+import { useAuthStore } from '@/stores';
+import { clearAuthTokens } from '@/lib/auth';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import {
@@ -43,7 +45,22 @@ const Navbar: React.FC<INavbarProps> = ({ children, ...rest }) => {
   // const { permission } = usePermission();
   // const auth = useAppSelector((s) => s.auth);
   const theme = useTheme();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+  const user = useAuthStore((s) => s.user);
+
+  const userInitials = user?.displayName
+    ? user.displayName
+        .split(' ')
+        .map((n) => n[0])
+        .join('')
+        .toUpperCase()
+        .slice(0, 2)
+    : null;
+
+  const handleLogout = () => {
+    clearAuthTokens();
+    navigate('/login', { replace: true });
+  };
   // const location = useLocation();
 
   const lg = useMediaQuery(theme.breakpoints.down('lg'));
@@ -52,55 +69,6 @@ const Navbar: React.FC<INavbarProps> = ({ children, ...rest }) => {
   const [isPersonalProfileDrawerOpen, setIsPersonalProfileDrawerOpen] =
     React.useState<boolean>(false);
   const [isNotificationDrawerOpen] = React.useState<boolean>(false);
-
-  // const dispatch = useDispatch<AppDispatch>();
-  // const { hasUnread } = useSelector((state: RootState) => state.notification);
-
-  // const handleNotificationDrawerClose = React.useCallback(() => {
-  //   dispatch(markAllNotificationsRead());
-  //   setIsNotificationDrawerOpen(false);
-  //   dispatch(resetNotifications());
-  // }, [dispatch]);
-
-  // const handleNotificationClick = async () => {
-  //   try {
-  //     setIsLoadingNotifications(true);
-  //     await dispatch(fetchNotificationList({ page: 1 })).unwrap();
-  //     await dispatch(fetchNotificationCount()).unwrap();
-  //     setIsNotificationDrawerOpen(true);
-  //   } catch (error) {
-  //     console.error("Failed to fetch notifications", error);
-  //   } finally {
-  //     setIsLoadingNotifications(false);
-  //   }
-  // };
-
-  // React.useEffect(() => {
-  //   dispatch(checkNotificationUnreadIn7Days());
-
-  //   const intervalId = setInterval(() => {
-  //     dispatch(checkNotificationUnreadIn7Days());
-  //   }, 10000);
-
-  //   return () => clearInterval(intervalId);
-  // }, [dispatch]);
-
-  // const { loading, send: logout } = useRequest(
-  //   (sessionId) => smalLogout({ sessionId }),
-  //   { immediate: false }
-  // );
-
-  // const {
-  //   data: personInfo,
-  //   loading: fetchPersonalInfoLoading,
-  //   send: fetchPersonalInfo
-  // } = useRequest(
-  //   (id: string) => getPersonalInfo(id),
-  //   { immediate: false }
-  // )
-  //   .onSuccess(() => {
-  //     setIsPersonalProfileDrawerOpen(true);
-  //   });
 
   const [scrollProgress, setScrollProgress] = React.useState(0);
 
@@ -293,6 +261,7 @@ const Navbar: React.FC<INavbarProps> = ({ children, ...rest }) => {
             </>
           )} */}
           <Avatar
+            onClick={() => setopenLogoutModal(true)}
             sx={{
               bgcolor: '#094dcc',
               cursor: 'pointer',
@@ -304,7 +273,7 @@ const Navbar: React.FC<INavbarProps> = ({ children, ...rest }) => {
                 color: tokens.colorTextOnColor
               }}
             >
-              SA
+              {userInitials ?? '?'}
             </Typography>
           </Avatar>
         </Stack>
@@ -336,26 +305,10 @@ const Navbar: React.FC<INavbarProps> = ({ children, ...rest }) => {
           okText={t('dialog__logout_cta_logout')}
           cancelText={t('dialog__exit_cta_cancle')}
           onCancel={() => setopenLogoutModal(false)}
-          // onOk={() => {
-          //   const sessionId = localStorage.getItem('sessionId') ?? '';
-          //   logout(sessionId)
-          //     .then((res) => {
-          //       if (res?.data?.redirectUrl) {
-          //         window.location.href = res.data.redirectUrl;
-          //       } else {
-          //         navigate("/login", { replace: true });
-          //       }
-          //     })
-          //     .catch((e) => {
-          //       console.log(e);
-          //       logoutHandler(() => {
-          //         window.location.href = '/login';
-          //       });
-          //     })
-          //     .finally(() => {
-          //       setopenLogoutModal(false);
-          //     })
-          // }}
+          onOk={() => {
+            setopenLogoutModal(false);
+            handleLogout();
+          }}
         />
       </Dialog>
       {/* <LoadingModal loading={isLoadingNotifications || fetchPersonalInfoLoading} /> */}

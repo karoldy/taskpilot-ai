@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { useAuthStore } from '@/stores';
 
 const KEYS = {
   accessToken: 'accessToken',
@@ -46,10 +47,11 @@ export function isAuthenticated(): boolean {
   return getAccessToken() !== null;
 }
 
-/** 清除所有 token */
+/** 清除所有 token 及用户信息 */
 export function clearAuthTokens() {
   localStorage.removeItem(KEYS.accessToken);
   localStorage.removeItem(KEYS.accessTokenExpiresAt);
   localStorage.removeItem(KEYS.refreshToken);
   localStorage.removeItem(KEYS.refreshTokenExpiresAt);
+  useAuthStore.getState().clearUser();
 }

@@ -13,32 +13,32 @@ export const ROOT_PATH: RouteConfig[] = [
   {
     id: 'project',
     path: 'projects',
-    key: 'navmenu__project',
+    key: 'web_nav_menu_project',
   },
   {
     id: 'task',
     path: 'tasks',
-    key: 'navmenu__task',
+    key: 'web_nav_menu_task',
   },
   {
     id: 'staff',
     path: 'staffs',
-    key: 'navmenu__staff',
+    key: 'web_nav_menu_staff',
   },
   {
     id: 'schedule',
     path: 'schedules',
-    key: 'navmenu__schedule',
+    key: 'web_nav_menu_schedule',
   },
   {
     id: 'note',
     path: 'notes',
-    key: 'navmenu__doc',
+    key: 'web_nav_menu_document',
   },
   {
     id: 'dashboard',
     path: 'dashboard',
-    key: 'navmenu__home',
+    key: 'web_nav_menu_dashboard',
   },
 ];
 

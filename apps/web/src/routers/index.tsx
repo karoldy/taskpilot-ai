@@ -35,8 +35,12 @@ const routers: RouteObject[] = [
         Component: lazy(() => import('@/components/layouts')),
         children: [
           {
+            path: 'projects',
+            Component: lazy(() => import('@/views/project/Landing')),
+          },
+          {
             path: 'tasks',
-            Component: lazy(() => import('@/views/task/landing')),
+            Component: lazy(() => import('@/views/task/Landing')),
           },
         ],
       },

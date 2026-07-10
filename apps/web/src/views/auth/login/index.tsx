@@ -4,6 +4,7 @@ import { typography } from '@/tokens/style';
 import { useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { isAuthenticated } from '@/lib/auth';
+import { useAuthStore } from '@/stores';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Footer from '@/components/layouts/Footer';
@@ -18,7 +19,9 @@ export default function Page() {
   useEffect(() => {
     if (isAuthenticated()) {
       navigate('/');
+      return;
     }
+    useAuthStore.getState().clearUser();
   }, []);
 
   return (

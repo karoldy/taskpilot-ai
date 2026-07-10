@@ -8,6 +8,12 @@
   "web_version_no": "版本",
   "web_footer__terms": "@MIT开源协议",
   "web_setting_language": "语言",
+  "web_nav_menu_project": "项目",
+  "web_nav_menu_task": "任务",
+  "web_nav_menu_staff": "用户",
+  "web_nav_menu_document": "文档",
+  "web_nav_menu_schedule": "更表",
+  "web_nav_menu_dashboard": "数据看板",
   "web_form_field_email_label": "邮件",
   "web_form_field_email_placeholder": "请输入邮件",
   "web_form_field_password_label": "密码",
@@ -19,5 +25,11 @@
   "web_cta_oauth_google": "Google",
   "web_cta_oauth_github": "Github",
   "web_title_function_is_currently_under_development": "功能正在实现",
-  "web_subtitle_stay_tuned": "敬请期待"
+  "web_subtitle_stay_tuned": "敬请期待",
+  "project": {
+    "title": "项目",
+    "summary_pre": "共",
+    "summary": "{{0}}个",
+    "summary_end": "项目"
+  }
 }
